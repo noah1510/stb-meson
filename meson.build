@@ -6,7 +6,21 @@ project(
   license : 'Mit'
 )
 
-incdir = include_directories('.')
+#delte the stb folder if it exists
+rm = find_program('rm')
+run_command(rm, '-rf', 'stb')
+
+#find the git command and clone the latest version of stb
+git = find_program('git')
+r = run_command(git, 'clone', 'https://github.com/nothings/stb.git')
+if r.returncode() != 0
+  error('git clone failed')
+endif
+output = r.stdout().strip()
+errortxt = r.stderr().strip()
+
+#include the folder and delcare the dependency
+incdir = include_directories('stb')
 
 stb_dep = declare_dependency(
     include_directories : incdir,
