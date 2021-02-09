@@ -6,21 +6,11 @@ project(
   license : 'Mit'
 )
 
-#delte the stb folder if it exists
-rm = find_program('rm')
-run_command(rm, '-rf', 'stb')
-
-#find the git command and clone the latest version of stb
-git = find_program('git')
-r = run_command(git, 'clone', 'https://github.com/nothings/stb.git')
-if r.returncode() != 0
-  error('git clone failed')
-endif
-output = r.stdout().strip()
-errortxt = r.stderr().strip()
+#use this as a patch for the offical stb repository inside of a wrap file.
+#You can view an example of this wrap file on the following link: https://github.com/noah1510/redhand/blob/main/subprojects/stb.wrap
 
 #include the folder and delcare the dependency
-incdir = include_directories('stb')
+incdir = include_directories('.')
 
 stb_dep = declare_dependency(
     include_directories : incdir,
